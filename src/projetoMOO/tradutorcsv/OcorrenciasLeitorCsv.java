@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import projetoMOO.ObjetoJSON;
+import projetoMOO.EstadoUF;
 
 public class OcorrenciasLeitorCsv implements LeitorCsv {
 
 	@Override
-	public ArrayList<ObjetoJSON> lerArquivos() {
+	public ArrayList<EstadoUF> lerArquivos() {
 	
-		HashMap<String,ObjetoJSON> tabelaObjetosJson = new HashMap<String,ObjetoJSON>();
+		HashMap<String,EstadoUF> tabelaObjetosJson = new HashMap<String,EstadoUF>();
 		
 		try {
 			lerUfCsv(tabelaObjetosJson, "./arquivosCSV/uf.csv");
@@ -31,7 +31,7 @@ public class OcorrenciasLeitorCsv implements LeitorCsv {
 	}
 	
 	private void lerUfCsv( 
-			HashMap<String, ObjetoJSON> tabelaObjetosJson, String arquivo) throws Exception {
+			HashMap<String, EstadoUF> tabelaObjetosJson, String arquivo) throws Exception {
 		
 		
 		String lineRead; 
@@ -45,7 +45,7 @@ public class OcorrenciasLeitorCsv implements LeitorCsv {
     		
     		String[] colunas = lineRead.split(",");
     		
-    		ObjetoJSON objJSON = new ObjetoJSON();
+    		EstadoUF objJSON = new EstadoUF();
     		
     		objJSON.setAbreviatura(colunas[0]);
     		objJSON.setNome(colunas[1]);
@@ -57,7 +57,7 @@ public class OcorrenciasLeitorCsv implements LeitorCsv {
 	}
 
 	private void lerUnidadePRF(
-			HashMap<String, ObjetoJSON> tabelaObjetosJson, String arquivo) throws Exception {
+			HashMap<String, EstadoUF> tabelaObjetosJson, String arquivo) throws Exception {
 		
 		String lineRead;
 		
