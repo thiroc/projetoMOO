@@ -1,9 +1,11 @@
 package projetoMOO.rest;
 
+import java.io.File;
+
 import javax.servlet.ServletException;
 
-import projetoMOO.dao.ReadExcel;
-
+import projetoMOO.InfratorCondutor;
+import projetoMOO.csv.ReadCSV;
 
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
@@ -57,9 +59,12 @@ public class MooContainer extends ServletContainer {
              * Chrome/35.0.1916.153 Safari/537.36 */
             // build.
             
-            ReadExcel test = new ReadExcel();
-            test.setInputFile("Tabela Municipio Geo.xlsx");
-            test.read();
+            //ReadExcel test = new ReadExcel();
+            //test.setInputFile("Tabela Municipio Geo.xlsx");
+            //test.read();
+        	
+            ReadCSV reader = new ReadCSV();
+            reader.lerCSV(new File("D:\\CiC\\Semestre Atual\\ProjetoMOO\\WORKSPACE\\Teste1\\infracaocondutor-2007 1 semestre.csv"), InfratorCondutor.class);
             
         } catch (Throwable e) {
             e.printStackTrace();
