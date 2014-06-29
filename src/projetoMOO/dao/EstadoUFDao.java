@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 import org.lightcouch.CouchDbClient;
 import org.lightcouch.Response;
 
@@ -18,17 +17,25 @@ public class EstadoUFDao {
     private final CouchDbClient dbClient = new CouchDbClient();
     
     /**
+     * @param latMin
+     * @param latMax
+     * @return
+     */
+    public List<Cidade> queryPorLatitude(String min, String max) {
+        List<Cidade> query = dbClient.view("latitude/latitude").startKey(new Double(min)).endKey(new Double(max))
+                .includeDocs(true).query(Cidade.class);
+        return query;
+    }
+    
+    /**
      * @param min
      * @param max
      * @return
      */
     public List<Cidade> queryPorLongitude(String min, String max) {
-        List<Cidade> query = dbClient
-                .view("longitude/longitude")
-                .startKey(new Double(min))
-                .endKey(new Double(max))
-                .includeDocs(true)
-                .query(Cidade.class);
+        List<Cidade> query = dbClient.view("longitude/longitude").startKey(new Double(min)).endKey(new Double(max))
+                .includeDocs(true).query(Cidade.class);
+        
         return query;
     }
     
@@ -108,19 +115,4 @@ public class EstadoUFDao {
      * 
      * while (changes.hasNext()) {
      * ChangesResult.Row feed = changes.next(); } */
-
-    /**
-     * @param latMin
-     * @param latMax
-     * @return
-     */
-    public List<Cidade> queryPorLatitude(String min, String max) {
-            List<Cidade> query = dbClient
-                    .view("latitude/latitude")
-                    .startKey(new Double(min))
-                    .endKey(new Double(max))
-                    .includeDocs(true)
-                    .query(Cidade.class);
-            return query;
-        }
 }

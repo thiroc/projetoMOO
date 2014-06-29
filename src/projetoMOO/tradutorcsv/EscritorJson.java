@@ -2,9 +2,9 @@ package projetoMOO.tradutorcsv;
 
 import java.util.ArrayList;
 
-import projetoMOO.EstadoUF;
+import projetoMOO.model.Ocorrencia;
 
 public interface EscritorJson {
-
-	void escreverArquivos(ArrayList<EstadoUF> arrayList);
+    
+    void escreverArquivos(ArrayList<Ocorrencia> arrayList);
 }

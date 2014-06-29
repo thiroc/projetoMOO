@@ -2,10 +2,10 @@ package projetoMOO.tradutorcsv;
 
 import java.util.ArrayList;
 
-import projetoMOO.EstadoUF;
+import projetoMOO.model.Ocorrencia;
 
 public interface LeitorCsv {
-	
-	ArrayList<EstadoUF> lerArquivos();
-	
+    
+    ArrayList<Ocorrencia> lerArquivos();
+    
 }
