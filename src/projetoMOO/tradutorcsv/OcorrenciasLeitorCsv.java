@@ -48,7 +48,7 @@ public class OcorrenciasLeitorCsv implements LeitorCsv {
     	br.readLine(); // Lê a primeira linha com o nome das colunas
     	while ( (lineRead = br.readLine()) != null ) {
     		
-    		String[] colunas = lineRead.split(",");
+    		String[] colunas = lineRead.split(";");
     		
     		EstadoUF objJSON = new EstadoUF();
     		
@@ -73,7 +73,7 @@ public class OcorrenciasLeitorCsv implements LeitorCsv {
     	br.readLine(); // Lê a primeira linha com o nome das colunas
     	while ( (lineRead = br.readLine()) != null ) {
     		
-    		String[] colunas = lineRead.split(",");
+    		String[] colunas = lineRead.split(";");
     		String[] siglaSplit = colunas[3].split("/");
     		
     		if ( tabelaObjetosJson.containsKey(siglaSplit[1]) ) {
@@ -117,12 +117,12 @@ public class OcorrenciasLeitorCsv implements LeitorCsv {
     	brOcorrencia.readLine(); // Lê a primeira linha com o nome das colunas
     	brLocal.readLine();
     	while ( (lineReadOcorrencia = brOcorrencia.readLine()) != null ) {
-    		
-    		String[] colunasOcorrencia = lineReadOcorrencia.split(",");
+    		s
+    		String[] colunasOcorrencia = lineReadOcorrencia.split(";");
     		
     		while( (lineReadLocal = brLocal.readLine()) != null ){
     		
-    			String[] colunasLocal = lineReadLocal.split(",");
+    			String[] colunasLocal = lineReadLocal.split(";");
     			
     			if( colunasOcorrencia[1].equals(colunasLocal[0]) &&
     					tabelaObjetosJson.containsKey(colunasLocal[1]) ) {
