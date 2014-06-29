@@ -2,7 +2,7 @@ package projetoMOO;
 
 public class EstadoUF {
     
-    final static int    NUM_TIPOS     = 8;
+    final static int    NUM_TIPOS     = 9;
     final static String tipoDocumento = "unidadefederativa";
     private String      abreviatura;
     private String      id;
