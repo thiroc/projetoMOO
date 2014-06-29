@@ -15,8 +15,20 @@ import java.util.Map;
 import projetoMOO.anotacoes.Campo;
 import projetoMOO.dao.AbstractDAO;
 
+/**
+ * Classe que faz a leitura do CSV.
+ * 
+ * @author	Daniel Magalhães 
+ * */
+
 public class ReadCSV {
 
+	/**
+	 * Lê um arquivo CSV, faz a instânciação dos objetos do parâmetro e salva no BD.
+	 * 
+	 * @param	arquivoCSV	Arquivo de entrada.
+	 * @param	objetoClasse	Class que representa o objeto sendo lido.
+	 * */
 	public void lerCSV(File arquivoCSV, Class<?> objetoClasse) {
 		String linha = null;
 		List<String> campos = null;
@@ -30,10 +42,12 @@ public class ReadCSV {
 			
 			BufferedReader br = Arquivo.getReaderArquivo(arquivoCSV);
 			
+			//Faz a leitura da primeira linha que possui os campos do CSV
 			if((linha = Arquivo.lerLinha(arquivoCSV, br)) != null) {
 				campos = Arquivo.lerCampos(linha);
 			}
 			
+			//Faz a leitura do restante dos arquivos
 			if(!campos.isEmpty()) {
 				while((linha = Arquivo.lerLinha(arquivoCSV, br)) != null) {
 					linhaValores = Arquivo.lerCampos(linha);
@@ -62,6 +76,12 @@ public class ReadCSV {
 		}
 	}
 
+	/**
+	 * Recupera da classe desejada, os valores das anotações Campo e faz uma map(valor_anotacao, nome_do_atributo).
+	 * 
+	 * @param	objeto	Class que representa o objeto desejado.
+	 * @return	Map com as associações desejadas.
+	 * */
 	public Map<String,String> recuperarAtributoValorAnotacao(Class<?> objeto) throws ClassNotFoundException {
 		Map<String,String> atributoAnotacao = new HashMap<>();
 		for (Field f: objeto.getDeclaredFields()) {
@@ -72,6 +92,15 @@ public class ReadCSV {
 		return atributoAnotacao;
 	}
 	
+	/**
+	 * Recupera da lista de campos, do map de valor das anotações por atributo e dos valores presente em uma linha
+	 * os valores para atribuir a um objeto.
+	 * 
+	 * @param	campos	Lista com todos os campos do CSV.
+	 * @param	atributoValorAnotacao	Map(valor_anotacao_campo, nome_do_atributo).
+	 * @param	linhaValores	Lista com os valores separados dos campos de uma linha.
+	 * @return	Map(nome_atributo, valor_do_atributo).
+	 * */
 	public Map<String,String> recuperarAtributoValorObjeto(List<String> campos, Map<String, String> atributoValorAnotacao, List<String> linhaValores) {
 		Map<String,String> atributoValorObjeto = new HashMap<>();
 		int i = 0;
@@ -82,13 +111,27 @@ public class ReadCSV {
 		return atributoValorObjeto;
 	}
 	
-	public Object instanciarObjeto(Class<?> objeto, Map<String, String> atributoValor) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	/**
+	 * Instancia um objeto da classe desejada, e preenche os atributos com os valores fornecidos.
+	 * 
+	 * @param	atributoValor	Map com o valor dos atributos.
+	 * @return	O objeto desejado com os atributos preenchidos.
+	 * */
+	public Object instanciarObjeto(Class<?> classeObjeto, Map<String, String> atributoValor) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object objRetorno = null;
-		Class<?> c = Class.forName(objeto.getName());
+		Class<?> c = Class.forName(classeObjeto.getName());
 		objRetorno = c.newInstance();
 		return preencherValores(objRetorno, atributoValor);
 	}
 	
+	/**
+	 * Faz o Set de cada atributo fornecido.
+	 * OBS: O objeto precisa possuir um método Set público para cada atributo fornecido. 
+	 * 
+	 * @param	obj	Objeto que vai ter os campos preenchidos.
+	 * @param	Map(nome_atributo, valor_do_atributo) para fazer os Sets.
+	 * @return	Objeto preenchido.
+	 * */
 	private Object preencherValores(Object obj, Map<String, String> atributoValores) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, ClassNotFoundException, InstantiationException {
 		String atributoValor, nomeMetodo;
 		Class<?> c = obj.getClass();
@@ -110,17 +153,32 @@ public class ReadCSV {
 		return obj;
 	}
 	
+	/**
+	 * Retorna um atributo inicializado com o tipo correto.
+	 * OBS: Somente os tipos declarados abaixo estão sendo suportados, acrescentar mais se precisar.
+	 * 
+	 * @param	classeCampo	Classe do objeto sendo setado.
+	 * @param	atributo	Atributo no formato String.
+	 * @return	Objeto preenchido.
+	 * */
 	private Object converterValor(Class<?> classeCampo, String atributo) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		String tipo = classeCampo.getName().replace("java.lang.", "");
+		if(atributo.isEmpty()) {
+			atributo = "0";
+		}
 		switch(tipo) {
 		case "String":
 			return atributo; 
+		case "int":	
 		case "Integer":
 			return new Integer(atributo);
+		case "long":
 		case "Long":
 			return new Long(atributo);
+		case "float":
 		case "Float":
 			return new Float(atributo);
+		case "double":
 		case "Double":
 			return new Double(atributo);
 		default:
