@@ -162,7 +162,7 @@ public class ReadCSV {
 	 * @return	Objeto preenchido.
 	 * */
 	private Object converterValor(Class<?> classeCampo, String atributo) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		String tipo = classeCampo.getName().replace("java.lang.", "");
+		String tipo = StringUtils.getTipo(classeCampo.getName());
 		if(atributo.isEmpty()) {
 			atributo = "0";
 		}
@@ -185,4 +185,5 @@ public class ReadCSV {
 			return null;
 		}
 	}
+	
 }

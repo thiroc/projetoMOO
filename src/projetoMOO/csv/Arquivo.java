@@ -64,13 +64,9 @@ public class Arquivo {
 	public static List<String> lerCampos(String linha) {
 		List<String> campos = new ArrayList<>();
 		for(String campo : linha.split(SEPARADOR)) {
-			campos.add(tratarCampo(campo));
+			campos.add(StringUtils.tratarCampo(campo));
 		}		
 		return campos;
 	}
 	
-	//Alguns CSVs possui campos que estão entre ""
-	public static String tratarCampo(String campo) {
-		return campo.replaceAll("\"", "").trim();
-	}
 }
