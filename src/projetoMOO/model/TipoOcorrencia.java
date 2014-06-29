@@ -7,24 +7,31 @@ package projetoMOO.model;
  * @author Guilherme
  * 
  */
-public enum TipoOcorrencia {
-    ACIDENTE("Acidentes Rodoviários", 1), APREENSAO_CARGA("Aprenão de Carga", 7), APREENSAO_CNH("Apreensão de CNH", 4), APREENSAO_DOC(
-            "Apreensão de Documento", 6), DETENCAO_AUXILIO("Pessoa Detenção/auxílio ", 3), INTERDICAO_RODOVIA(
-            "Intendição Rodoviária", 8), OCORRENCIA_D("Ocorrência D", 9), RETENCAO(
-            "Retenção, Apreensão e recuperação de Veículos", 2);
+public class TipoOcorrencia {
+    public static final TipoOcorrencia   ACIDENTE           = new TipoOcorrencia("Acidentes Rodoviarios", 1);
+    
+    public static final TipoOcorrencia   APREENSAO_CARGA    = new TipoOcorrencia("Apreensao de Carga", 7);
+    public static final TipoOcorrencia   APREENSAO_CNH      = new TipoOcorrencia("Apreensao de CNH", 4);
+    
+    public static final TipoOcorrencia   APREENSAO_DOC      = new TipoOcorrencia("Apreensao de Documento", 6);
+    public static final TipoOcorrencia   DETENCAO_AUXILIO   = new TipoOcorrencia("Pessoa Detencao/auxilio ", 3);
+    public static final TipoOcorrencia   INTERDICAO_RODOVIA = new TipoOcorrencia("Intendicao Rodoviaria", 8);
+    public static final TipoOcorrencia   OCORRENCIA_D       = new TipoOcorrencia("Ocorrencia D", 9);
+    public static final TipoOcorrencia   RETENCAO           = new TipoOcorrencia(
+                                                                    "Retencao, Apreensao e recuperacao de Veiculos", 2);
+    public final static TipoOcorrencia[] values             = new TipoOcorrencia[] { ACIDENTE, APREENSAO_CARGA,
+            APREENSAO_CNH, APREENSAO_DOC, DETENCAO_AUXILIO, INTERDICAO_RODOVIA, OCORRENCIA_D, RETENCAO };
     
     public static TipoOcorrencia buscarTipoPorNumero(int i) {
-        TipoOcorrencia[] values = values();
         for (int j = 0; j < values.length; j++) {
-            if (i == values[i].id) {
-                return values[i];
+            if (i == values[j].id) {
+                return values[j];
             }
         }
         return null;
     }
     
-    private int          id;
-    
+    private final int    id;
     private final String tipo;
     
     private TipoOcorrencia(String tipo, int id) {
@@ -33,9 +40,24 @@ public enum TipoOcorrencia {
     }
     
     /**
+     * @return o id
+     */
+    public int getId() {
+        return id;
+    }
+    
+    /**
      * @return o tipo
      */
     public String getTipo() {
+        return tipo;
+    }
+    
+    /* (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString() */
+    @Override
+    public String toString() {
         return tipo;
     }
 }

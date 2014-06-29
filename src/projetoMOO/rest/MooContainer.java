@@ -2,7 +2,6 @@ package projetoMOO.rest;
 
 import javax.servlet.ServletException;
 
-import projetoMOO.dao.ReadExcel;
 import projetoMOO.tradutorcsv.OcorrenciasLeitorCsv;
 
 import com.sun.jersey.spi.container.servlet.ServletContainer;
@@ -14,7 +13,7 @@ public class MooContainer extends ServletContainer {
     @Override
     public void init() throws ServletException {
         super.init();
-        popularBanco();
+        // popularBanco();
     }
     
     private void popularBanco() {
@@ -57,10 +56,11 @@ public class MooContainer extends ServletContainer {
              * Chrome/35.0.1916.153 Safari/537.36 */
             // build.
             
-            ReadExcel test = new ReadExcel();
-            test.setInputFile("Tabela Municipio Geo.xlsx");
-            test.read();
+            // ReadExcel test = new ReadExcel();
+            // test.setInputFile("Tabela Municipio Geo.xlsx");
+            // test.read();
             OcorrenciasLeitorCsv ocorrencias = new OcorrenciasLeitorCsv();
+            
             ocorrencias.lerArquivos();
             
         } catch (Throwable e) {

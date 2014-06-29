@@ -5,97 +5,57 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import projetoMOO.model.Cidade;
 import projetoMOO.model.Ocorrencia;
 
-public class OcorrenciasLeitorCsv implements LeitorCsv {
+public class OcorrenciasLeitorCsv {
     
-    @Override
-    public ArrayList<Ocorrencia> lerArquivos() {
-        
-        HashMap<String, Ocorrencia> tabelaObjetosJson = new HashMap<String, Ocorrencia>();
-        ArrayList<File> ocorrenciasCSV = new ArrayList<File>();
+    public static void main(String[] args) {
+        OcorrenciasLeitorCsv leitor = new OcorrenciasLeitorCsv();
+        leitor.lerArquivos();
+    }
+    
+    public void lerArquivos() {
         
         try {
             // lerUfCsv(tabelaObjetosJson,
             // "./arquivosCSV/uf.csv");
+            List<File> ocorrenciasCSV = new ArrayList<File>();
+            
             lerCidade("./arquivosCSV/municipio.csv");
             
-            listarArquivosOcorrencias(ocorrenciasCSV, "./arquivosCSV");
+            ocorrenciasCSV = listarArquivosOcorrencias("./arquivosCSV");
             // lerUnidadePRF(tabelaObjetosJson,
             // "./arquivosCSV/unidadeoperacional.csv");
             
             for (File f : ocorrenciasCSV) {
-                lerNumOcorrencias(tabelaObjetosJson, f);
+                lerNumOcorrencias(f);
             }
             
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        return null;
     }
     
     /**
      * @param string
      */
     private void lerCidade(String arquivo) {
-        ReadCSV readCSV = new ReadCSV();
-        readCSV.lerCSV(new File(arquivo), Cidade.class);
+        File arquivoCSV = new File(arquivo);
+        if (arquivoCSV.exists()) {
+            ReadCSV readCSV = new ReadCSV();
+            readCSV.lerCSV(arquivoCSV, Cidade.class);
+        }
     }
     
-    private void lerNumOcorrencias(HashMap<String, Ocorrencia> tabelaObjetosJson, File arquivoOcorrencia)
-            throws Exception {
-        
-        FileReader frOcorrencia = new FileReader(arquivoOcorrencia);
-        BufferedReader brOcorrencia = new BufferedReader(frOcorrencia);
-        String lineReadOcorrencia;
-        
-        File arquivoLocal = new File("./arquivosCSV/localbr.csv");
-        FileReader frLocal = new FileReader(arquivoLocal);
-        BufferedReader brLocal = new BufferedReader(frLocal);
-        String lineReadLocal;
-        
-        brOcorrencia.readLine(); // Lê a primeira
-                                 // linha com o
-                                 // nome das
-                                 // colunas
-        brLocal.readLine();
-        while ((lineReadOcorrencia = brOcorrencia.readLine()) != null) {
-            
-            String[] colunasOcorrencia = lineReadOcorrencia.split(",");
-            
-            while ((lineReadLocal = brLocal.readLine()) != null) {
-                
-                String[] colunasLocal = lineReadLocal.split(",");
-                
-                if (colunasOcorrencia[1].equals(colunasLocal[0]) && tabelaObjetosJson.containsKey(colunasLocal[1])) {
-                    
-                    int numOcorrencias;
-                    int numOcorrenciasTipo[];
-                    
-                    // numOcorrencias =
-                    // tabelaObjetosJson.get(colunasLocal[1]).getNumUnidadesPrf();
-                    // numOcorrencias += 1;
-                    // tabelaObjetosJson.get(colunasLocal[1]).setNumOcorrencias(numOcorrencias);
-                    
-                    // numOcorrenciasTipo =
-                    // tabelaObjetosJson.get(colunasLocal[1]).getNumOcorrenciasTipo();
-                    // Porque os tipos estão
-                    // definidos de 1 a 9 em vez
-                    // de 0 a 8, subtrai 1 do
-                    // índice do vetor
-                    // numOcorrenciasTipo[Integer.parseInt(colunasOcorrencia[7])
-                    // - 1] += 1;
-                    // tabelaObjetosJson.get(colunasLocal[1]).setNumOcorrenciasTipo(numOcorrenciasTipo);
-                }
-            }
-            
+    private void lerNumOcorrencias(File arquivoCSV) throws Exception {
+        if (arquivoCSV.exists()) {
+            ReadCSV readCSV = new ReadCSV();
+            readCSV.lerCSV(arquivoCSV, Ocorrencia.class);
         }
         
-        brLocal.close();
-        brOcorrencia.close();
     }
     
     private void lerUfCsv(HashMap<String, Ocorrencia> tabelaObjetosJson, String arquivo) throws Exception {
@@ -154,9 +114,9 @@ public class OcorrenciasLeitorCsv implements LeitorCsv {
         br.close();
     }
     
-    public void listarArquivosOcorrencias(ArrayList<File> ocorrencias, String directoryName) {
+    public List<File> listarArquivosOcorrencias(String directoryName) {
         File directory = new File(directoryName);
-        
+        List<File> ocorrencias = new ArrayList<File>();
         // Recupera todos arquivos de um diretório
         File[] fList = directory.listFiles();
         
@@ -165,5 +125,6 @@ public class OcorrenciasLeitorCsv implements LeitorCsv {
                 ocorrencias.add(file);
             }
         }
+        return ocorrencias;
     }
 }

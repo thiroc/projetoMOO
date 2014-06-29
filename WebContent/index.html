@@ -1,18 +1,42 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 <title>Search</title>
 </head>
 <body>
-	<form action="/trab3/rest/moo" accept="application/json" method="get">
+	<form action="/trab3/rest/moo/estado" accept="application/json" method="get">
 		<fieldset>
 			<legend>Pesquisa</legend>
-			Nome:<input type="text" name="nome"><br></br> 
-			Longitude M�nima: <input type="text" name="longiMin"><br></br>
-			Longitude M�xima: <input type="text" name="longiMax"><br></br>
-			Latitude M�nima: <input type="text" name="latMin"><br></br>
-			Latitude M�xima: <input type="text" name="latMax"><br></br>
+			<select name="estado">
+				<option value="AC" label="Acre">
+				<option value="AL" label="Alagoas">
+				<option value="AP" label="Amapá">
+				<option value="AM" label="Amazonas">
+				<option value="BA" label="Bahia">
+				<option value="CE" label="Ceará">
+				<option value="DF" label="Distrito Federal">
+				<option value="ES" label="Espírito Santo">
+				<option value="GO" label="Goiás">
+				<option value="MA" label="Maranhão">
+				<option value="MT" label="Mato Grosso">
+				<option value="MS" label="Mato Grosso do Sul">
+				<option value="MG" label="Minas Gerais">
+				<option value="PA" label="Pará">
+				<option value="PB" label="Paraíba">
+				<option value="PR" label="Paraná">
+				<option value="PE" label="Pernambuco">
+				<option value="PI" label="Piauí">
+				<option value="RJ" label="Rio de Janeiro">
+				<option value="RN" label="Rio Grande do Norte">
+				<option value="RS" label="Rio Grande do Sul">
+				<option value="RO" label="Rondônia">
+				<option value="RR" label="Roraima">
+				<option value="SC" label="Santa Catarina">
+				<option value="SP" label="São Paulo">
+				<option value="SE" label="Sergipe">
+				<option value="TO" label="Tocantins">
+			</select> 
 			<input type="submit" value="Procurar"> <input type="reset"
 				value="Limpar">
 		</fieldset>

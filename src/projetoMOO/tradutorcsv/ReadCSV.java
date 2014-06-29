@@ -2,8 +2,6 @@ package projetoMOO.tradutorcsv;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,6 +14,8 @@ import java.util.Map;
 
 import projetoMOO.dao.AbstractDAO;
 import projetoMOO.dao.Campo;
+import projetoMOO.dao.EstadoUFDao;
+import projetoMOO.model.Cidade;
 import projetoMOO.model.TipoOcorrencia;
 
 /**
@@ -38,40 +38,70 @@ public class ReadCSV {
      *            Atributo no formato String.
      * @return Objeto preenchido.
      * */
+    
+    private final EstadoUFDao      dao2   = new EstadoUFDao();
+    
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    
     private Object converterValor(Class<?> classeCampo, String atributo) throws ClassNotFoundException,
             InstantiationException, IllegalAccessException {
         String tipo = StringUtils.getTipo(classeCampo.getName());
         if (atributo.isEmpty()) {
             atributo = "0";
         }
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         
-        switch (tipo) {
-            case "String":
-                return atributo;
-            case "int":
-            case "Integer":
-                return new Integer(atributo);
-            case "long":
-            case "Long":
-                return new Long(atributo);
-            case "float":
-            case "Float":
-                return new Float(atributo);
-            case "double":
-            case "Double":
-                return new Double(atributo);
-            case "Date":
-                try {
-                    return format.parse(atributo);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            case "TipoOcorrencia":
-                return TipoOcorrencia.buscarTipoPorNumero(Integer.valueOf(atributo));
-            default:
-                return null;
+        if (tipo.equals("String")) {
+            return atributo;
+        } else if (tipo.equals("int") || tipo.equals("Integer")) {
+            return new Integer(atributo);
+        } else if (tipo.equals("long") || tipo.equals("Long")) {
+            return new Long(atributo);
+        } else if (tipo.equals("Float") || tipo.equals("float")) {
+            return new Float(atributo);
+        } else if (tipo.equals("Double") || tipo.equals("double")) {
+            return new Double(atributo);
+        } else if (tipo.equals("Date")) {
+            try {
+                return format.parse(atributo);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            
+        } else if (tipo.equals("TipoOcorrencia")) {
+            TipoOcorrencia tipoO = TipoOcorrencia.buscarTipoPorNumero(Integer.valueOf(atributo));
+            return tipoO;
+            
+        } else if (tipo.equals(Cidade.class.getSimpleName())) {
+            return dao2.buscarCidade(new Integer(atributo));
         }
+        return null;
+        // switch (tipo) {
+        // case "String":
+        // return atributo;
+        // case "int":
+        // case "Integer":
+        // return new Integer(atributo);
+        // case "long":
+        // case "Long":
+        // return new Long(atributo);
+        // case "float":
+        // case "Float":
+        // return new Float(atributo);
+        // case "double":
+        // case "Double":
+        // return new Double(atributo);
+        // case "Date":
+        // try {
+        // return format.parse(atributo);
+        // } catch (ParseException e) {
+        // e.printStackTrace();
+        // }
+        // case "TipoOcorrencia":
+        // return
+        // TipoOcorrencia.buscarTipoPorNumero(Integer.valueOf(atributo));
+        // default:
+        // return null;
+        // }
     }
     
     /**
@@ -135,19 +165,7 @@ public class ReadCSV {
                     dao.salvar(entidade);
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -199,7 +217,7 @@ public class ReadCSV {
      * @return Map com as associa��es desejadas.
      * */
     private Map<String, String> recuperarAtributoValorAnotacao(Class<?> objeto) throws ClassNotFoundException {
-        Map<String, String> atributoAnotacao = new HashMap<>();
+        Map<String, String> atributoAnotacao = new HashMap<String, String>();
         for (Field f : objeto.getDeclaredFields()) {
             Campo anotacao = f.getAnnotation(Campo.class);
             if (anotacao != null) {
@@ -229,7 +247,7 @@ public class ReadCSV {
      * */
     private Map<String, String> recuperarAtributoValorObjeto(List<String> campos,
             Map<String, String> atributoValorAnotacao, List<String> linhaValores) {
-        Map<String, String> atributoValorObjeto = new HashMap<>();
+        Map<String, String> atributoValorObjeto = new HashMap<String, String>();
         int i = 0;
         for (String campo : campos) {
             atributoValorObjeto.put(atributoValorAnotacao.get(campo), linhaValores.get(i));
@@ -237,5 +255,4 @@ public class ReadCSV {
         }
         return atributoValorObjeto;
     }
-    
 }

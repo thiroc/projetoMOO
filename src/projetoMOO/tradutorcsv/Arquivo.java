@@ -44,7 +44,7 @@ public class Arquivo {
      * @return Os campos separados em uma lista.
      * */
     public static List<String> lerCampos(String linha) {
-        List<String> campos = new ArrayList<>();
+        List<String> campos = new ArrayList<String>();
         for (String campo : linha.split(SEPARADOR)) {
             campos.add(StringUtils.tratarCampo(campo));
         }

@@ -2,14 +2,20 @@ package projetoMOO.model;
 
 import java.io.Serializable;
 
+import projetoMOO.dao.Campo;
+
 public class Cidade implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    private Double            latitude;
-    
-    private Double            longitude;
+    @Campo("tmucodigo")
+    private Integer           codigo;
+    @Campo("tmuuf")
+    private String            estado;
+    @Campo("tmudenominacao")
     private String            nome;
+    
+    public final String       tipo             = "cidade";
     
     public Cidade() {
     }
@@ -18,40 +24,28 @@ public class Cidade implements Serializable {
         this.nome = nome;
     }
     
-    public Cidade(String nome, double lat, double longi) {
-        this.nome = nome;
-        latitude = lat;
-        longitude = longi;
-        
+    public final Integer getCodigo() {
+        return codigo;
     }
     
-    public Double getLatitude() {
-        return latitude;
+    public final String getEstado() {
+        return estado;
     }
     
-    public Double getLongitude() {
-        return longitude;
-    }
-    
-    public String getNome() {
+    public final String getNome() {
         return nome;
     }
     
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public final void setCodigo(Integer codigo) {
+        this.codigo = codigo;
     }
     
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public final void setEstado(String estado) {
+        this.estado = estado;
     }
     
-    public void setNome(String nome) {
+    public final void setNome(String nome) {
         this.nome = nome;
-    }
-    
-    @Override
-    public String toString() {
-        return "Cidade [latitude=" + latitude + ", longitude=" + longitude + ", nome=" + nome + "]";
     }
     
 }
