@@ -16,6 +16,7 @@ import projetoMOO.dao.AbstractDAO;
 import projetoMOO.dao.Campo;
 import projetoMOO.dao.EstadoUFDao;
 import projetoMOO.model.Cidade;
+import projetoMOO.model.SiglaPosto;
 import projetoMOO.model.TipoOcorrencia;
 
 /**
@@ -73,6 +74,9 @@ public class ReadCSV {
             
         } else if (tipo.equals(Cidade.class.getSimpleName())) {
             return dao2.buscarCidade(new Integer(atributo));
+        } else if (tipo.equals("SiglaPosto")) {
+        	SiglaPosto sigla = SiglaPosto.parse(atributo);
+        	return sigla;
         }
         return null;
         // switch (tipo) {

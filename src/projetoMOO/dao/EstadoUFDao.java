@@ -41,6 +41,15 @@ public class EstadoUFDao {
         cidadeMap.append("}");
         cidade.setMap(cidadeMap.toString());
         
+//        MapReduce posto = new MapReduce();
+//        StringBuilder postoMap = new StringBuilder();
+//        cidadeMap.append("function(doc){");
+//        cidadeMap.append("if(doc.tipo == 'cidade'){");
+//        cidadeMap.append(" emit(doc.codigo,doc);");
+//        cidadeMap.append("}");
+//        cidadeMap.append("}");
+//        cidade.setMap(postoMap.toString());
+        
         MapReduce nOcorrencias = new MapReduce();
         StringBuilder ocorrenciasMap = new StringBuilder();
         ocorrenciasMap.append("function(doc){    if(doc.cidade && doc.cidade.estado){     ");

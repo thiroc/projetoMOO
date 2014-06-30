@@ -9,8 +9,8 @@ public class Posto {
 	@Campo("unilotacao")
 	private Integer capacidade;
 	@Campo("unisigla")
-	private String sigla;	
-	// Há informação de município, mas os campos a partir de certo ponto no arquivo ficam bagunçados
+	private SiglaPosto sigla;	
+	// Há informação de município, mabuscarCidades os campos a partir de certo ponto no arquivo ficam bagunçados
 	//private Cidade cidade;
 	
 	public Integer getCodigo() {
@@ -25,10 +25,10 @@ public class Posto {
 	public void setCapacidade(Integer capacidade) {
 		this.capacidade = capacidade;
 	}
-	public String getSigla() {
+	public SiglaPosto getSigla() {
 		return sigla;
 	}
-	public void setSigla(String sigla) {
+	public void setSigla(SiglaPosto sigla) {
 		this.sigla = sigla;
 	}
 	
