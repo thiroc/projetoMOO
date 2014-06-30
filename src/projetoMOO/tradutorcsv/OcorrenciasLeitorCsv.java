@@ -9,6 +9,7 @@ import java.util.List;
 
 import projetoMOO.model.Cidade;
 import projetoMOO.model.Ocorrencia;
+import projetoMOO.model.Posto;
 
 public class OcorrenciasLeitorCsv {
     
@@ -25,13 +26,14 @@ public class OcorrenciasLeitorCsv {
             List<File> ocorrenciasCSV = new ArrayList<File>();
             
             lerCidade("./arquivosCSV/municipio.csv");
+            lerPosto("./arquivosCSV/unidadeoperacional.csv");
             
             ocorrenciasCSV = listarArquivosOcorrencias("./arquivosCSV");
             // lerUnidadePRF(tabelaObjetosJson,
             // "./arquivosCSV/unidadeoperacional.csv");
             
             for (File f : ocorrenciasCSV) {
-                lerNumOcorrencias(f);
+                lerOcorrencia(f);
             }
             
         } catch (Exception e) {
@@ -39,7 +41,8 @@ public class OcorrenciasLeitorCsv {
         }
     }
     
-    /**
+
+	/**
      * @param string
      */
     private void lerCidade(String arquivo) {
@@ -50,7 +53,15 @@ public class OcorrenciasLeitorCsv {
         }
     }
     
-    private void lerNumOcorrencias(File arquivoCSV) throws Exception {
+    private void lerPosto(String arquivo) {
+    	File arquivoCSV = new File(arquivo);
+        if (arquivoCSV.exists()) {
+            ReadCSV readCSV = new ReadCSV();
+            readCSV.lerCSV(arquivoCSV, Posto.class);
+        }
+	}
+    
+    private void lerOcorrencia(File arquivoCSV) throws Exception {
         if (arquivoCSV.exists()) {
             ReadCSV readCSV = new ReadCSV();
             readCSV.lerCSV(arquivoCSV, Ocorrencia.class);
