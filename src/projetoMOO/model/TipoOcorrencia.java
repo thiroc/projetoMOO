@@ -15,7 +15,7 @@ public class TipoOcorrencia {
     
     public static final TipoOcorrencia   APREENSAO_DOC      = new TipoOcorrencia("Apreensao de Documento", 6);
     public static final TipoOcorrencia   DETENCAO_AUXILIO   = new TipoOcorrencia("Pessoa Detencao/auxilio ", 3);
-    public static final TipoOcorrencia   INTERDICAO_RODOVIA = new TipoOcorrencia("Intendicao Rodoviaria", 8);
+    public static final TipoOcorrencia   INTERDICAO_RODOVIA = new TipoOcorrencia("Interdicao Rodoviaria", 8);
     public static final TipoOcorrencia   OCORRENCIA_D       = new TipoOcorrencia("Ocorrencia D", 9);
     public static final TipoOcorrencia   RETENCAO           = new TipoOcorrencia(
                                                                     "Retencao, Apreensao e recuperacao de Veiculos", 2);

@@ -29,6 +29,7 @@ public class MooResource {
         info.setEstado(estado);
         info.setnOcorrencias(dao.getNOcorrencias(estado));
         info.setTipoOcorrencias(dao.getTipoOcorrencias(estado));
+        info.setnPostos(dao.getNPostos(estado));
         return info;
     }
     

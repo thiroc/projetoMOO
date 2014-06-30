@@ -10,11 +10,11 @@ public class Cidade implements Serializable {
     
     @Campo("tmucodigo")
     private Integer           codigo;
+    
     @Campo("tmuuf")
     private String            estado;
     @Campo("tmudenominacao")
     private String            nome;
-    
     public final String       tipo             = "cidade";
     
     public Cidade() {
@@ -46,6 +46,11 @@ public class Cidade implements Serializable {
     
     public final void setNome(String nome) {
         this.nome = nome;
+    }
+    
+    @Override
+    public String toString() {
+        return "Cidade [codigo=" + codigo + ", estado=" + estado + ", nome=" + nome + ", tipo=" + tipo + "]";
     }
     
 }

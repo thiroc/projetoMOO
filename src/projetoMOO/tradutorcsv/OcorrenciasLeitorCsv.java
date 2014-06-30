@@ -3,6 +3,8 @@ package projetoMOO.tradutorcsv;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +27,8 @@ public class OcorrenciasLeitorCsv {
             // "./arquivosCSV/uf.csv");
             List<File> ocorrenciasCSV = new ArrayList<File>();
             
-            lerCidade("./arquivosCSV/municipio.csv");
             lerPosto("./arquivosCSV/unidadeoperacional.csv");
+            lerCidade("./arquivosCSV/municipio.csv");
             
             ocorrenciasCSV = listarArquivosOcorrencias("./arquivosCSV");
             // lerUnidadePRF(tabelaObjetosJson,
@@ -41,32 +43,42 @@ public class OcorrenciasLeitorCsv {
         }
     }
     
-
-	/**
+    /**
      * @param string
+     * @throws IOException
+     * @throws InvocationTargetException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
      */
-    private void lerCidade(String arquivo) {
+    private void lerCidade(String arquivo) throws ClassNotFoundException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
         File arquivoCSV = new File(arquivo);
         if (arquivoCSV.exists()) {
+            System.out.println("cidade");
             ReadCSV readCSV = new ReadCSV();
             readCSV.lerCSV(arquivoCSV, Cidade.class);
         }
     }
     
-    private void lerPosto(String arquivo) {
-    	File arquivoCSV = new File(arquivo);
-        if (arquivoCSV.exists()) {
-            ReadCSV readCSV = new ReadCSV();
-            readCSV.lerCSV(arquivoCSV, Posto.class);
-        }
-	}
-    
     private void lerOcorrencia(File arquivoCSV) throws Exception {
         if (arquivoCSV.exists()) {
+            System.out.println("ocorrencia");
             ReadCSV readCSV = new ReadCSV();
             readCSV.lerCSV(arquivoCSV, Ocorrencia.class);
         }
         
+    }
+    
+    private void lerPosto(String arquivo) throws ClassNotFoundException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+        File arquivoCSV = new File(arquivo);
+        if (arquivoCSV.exists()) {
+            
+            ReadCSV readCSV = new ReadCSV();
+            readCSV.lerCSV(arquivoCSV, Posto.class);
+        }
     }
     
     private void lerUfCsv(HashMap<String, Ocorrencia> tabelaObjetosJson, String arquivo) throws Exception {
@@ -138,5 +150,5 @@ public class OcorrenciasLeitorCsv {
         }
         return ocorrencias;
     }
-
+    
 }

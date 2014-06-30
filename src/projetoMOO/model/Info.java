@@ -13,6 +13,7 @@ public class Info {
     
     private String                       estado;
     private Integer                      nOcorrencias;
+    private Integer                      nPostos;
     private Map<TipoOcorrencia, Integer> tipoOcorrencias;
     
     public final String getEstado() {
@@ -21,6 +22,10 @@ public class Info {
     
     public final Integer getnOcorrencias() {
         return nOcorrencias;
+    }
+    
+    public Integer getnPostos() {
+        return nPostos;
     }
     
     public final Map<TipoOcorrencia, Integer> getTipoOcorrencias() {
@@ -33,6 +38,10 @@ public class Info {
     
     public final void setnOcorrencias(Integer nOcorrencias) {
         this.nOcorrencias = nOcorrencias;
+    }
+    
+    public void setnPostos(Integer nPostos) {
+        this.nPostos = nPostos;
     }
     
     public final void setTipoOcorrencias(Map<TipoOcorrencia, Integer> tipoOcorrencias) {

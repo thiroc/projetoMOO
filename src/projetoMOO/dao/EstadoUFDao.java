@@ -41,14 +41,15 @@ public class EstadoUFDao {
         cidadeMap.append("}");
         cidade.setMap(cidadeMap.toString());
         
-//        MapReduce posto = new MapReduce();
-//        StringBuilder postoMap = new StringBuilder();
-//        cidadeMap.append("function(doc){");
-//        cidadeMap.append("if(doc.tipo == 'cidade'){");
-//        cidadeMap.append(" emit(doc.codigo,doc);");
-//        cidadeMap.append("}");
-//        cidadeMap.append("}");
-//        cidade.setMap(postoMap.toString());
+        MapReduce posto = new MapReduce();
+        StringBuilder postoMap = new StringBuilder();
+        postoMap.append("function(doc) {");
+        postoMap.append("  if(doc.sigla){");
+        postoMap.append("   emit(doc.sigla.estado,1);");
+        postoMap.append("  }");
+        postoMap.append("}");
+        posto.setMap(postoMap.toString());
+        posto.setReduce("function(keys, values){ return sum(values);}");
         
         MapReduce nOcorrencias = new MapReduce();
         StringBuilder ocorrenciasMap = new StringBuilder();
@@ -68,6 +69,7 @@ public class EstadoUFDao {
         view.put("cidade", cidade);
         view.put("nOcorrencias", nOcorrencias);
         view.put("tipoOcorrencias", tipoOcorrencias);
+        view.put("postos", posto);
         designDocument.setViews(view);
         
         dbClient.design().synchronizeWithDb(designDocument);
@@ -85,6 +87,20 @@ public class EstadoUFDao {
      */
     public Integer getNOcorrencias(String estado) {
         int queryForInt = dbClient.view("moo/nOcorrencias").reduce(true).key(estado).queryForInt();
+        return queryForInt;
+    }
+    
+    /**
+     * @param estado
+     * @return
+     */
+    public Integer getNPostos(String estado) {
+        boolean empty = dbClient.view("moo/postos").reduce(true).key(estado).query(Object.class).isEmpty();
+        if (empty) {
+            return 0;
+        }
+        
+        int queryForInt = dbClient.view("moo/postos").reduce(true).key(estado).queryForInt();
         return queryForInt;
     }
     

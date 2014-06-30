@@ -10,6 +10,7 @@ public class Ocorrencia {
     
     @Campo("ocomunicipio")
     private Cidade         cidade;
+    
     @Campo("ocodataocorrencia")
     private Date           dataOcorrencia;
     @Campo("ocotipo")
@@ -44,6 +45,12 @@ public class Ocorrencia {
      */
     public void setTipoOcorrencia(TipoOcorrencia tipoOcorrencia) {
         this.tipoOcorrencia = tipoOcorrencia;
+    }
+    
+    @Override
+    public String toString() {
+        return "Ocorrencia [cidade=" + cidade + ", dataOcorrencia=" + dataOcorrencia + ", tipoOcorrencia="
+                + tipoOcorrencia + "]";
     }
     
 }

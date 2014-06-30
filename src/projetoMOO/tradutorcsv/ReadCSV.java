@@ -2,6 +2,7 @@ package projetoMOO.tradutorcsv;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -54,7 +55,9 @@ public class ReadCSV {
         if (tipo.equals("String")) {
             return atributo;
         } else if (tipo.equals("int") || tipo.equals("Integer")) {
-            return new Integer(atributo);
+            if (!atributo.contains("(null)")) {
+                return new Integer(atributo);
+            }
         } else if (tipo.equals("long") || tipo.equals("Long")) {
             return new Long(atributo);
         } else if (tipo.equals("Float") || tipo.equals("float")) {
@@ -75,8 +78,8 @@ public class ReadCSV {
         } else if (tipo.equals(Cidade.class.getSimpleName())) {
             return dao2.buscarCidade(new Integer(atributo));
         } else if (tipo.equals("SiglaPosto")) {
-        	SiglaPosto sigla = SiglaPosto.parse(atributo);
-        	return sigla;
+            SiglaPosto sigla = SiglaPosto.parse(atributo);
+            return sigla;
         }
         return null;
         // switch (tipo) {
@@ -136,8 +139,15 @@ public class ReadCSV {
      * @param objetoClasse
      *            Class que representa o objeto
      *            sendo lido.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InvocationTargetException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      * */
-    public void lerCSV(File arquivoCSV, Class<?> objetoClasse) {
+    public void lerCSV(File arquivoCSV, Class<?> objetoClasse) throws IOException, ClassNotFoundException,
+            InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         String linha = null;
         List<String> campos = null;
         List<String> linhaValores = null;
@@ -146,31 +156,26 @@ public class ReadCSV {
         
         AbstractDAO<Object> dao = new AbstractDAO<Object>();
         
-        try {
-            
-            BufferedReader br = Arquivo.getReaderArquivo(arquivoCSV);
-            
-            // Faz a leitura da primeira linha que
-            // possui os campos do CSV
-            if ((linha = Arquivo.lerLinha(arquivoCSV, br)) != null) {
-                campos = Arquivo.lerCampos(linha);
+        BufferedReader br = Arquivo.getReaderArquivo(arquivoCSV);
+        
+        // Faz a leitura da primeira linha que
+        // possui os campos do CSV
+        if ((linha = Arquivo.lerLinha(arquivoCSV, br)) != null) {
+            campos = Arquivo.lerCampos(linha);
+        }
+        
+        // Faz a leitura do restante dos
+        // arquivos
+        if (!campos.isEmpty()) {
+            while ((linha = Arquivo.lerLinha(arquivoCSV, br)) != null) {
+                linhaValores = Arquivo.lerCampos(linha);
+                atributoValorAnotacao = recuperarAtributoValorAnotacao(objetoClasse);
+                atributoValor = recuperarAtributoValorObjeto(campos, atributoValorAnotacao, linhaValores);
+                Object entidade = instanciarObjeto(objetoClasse, atributoValor);
+                System.out.println(entidade);
+                // DAO generico Object
+                dao.salvar(entidade);
             }
-            
-            // Faz a leitura do restante dos
-            // arquivos
-            if (!campos.isEmpty()) {
-                while ((linha = Arquivo.lerLinha(arquivoCSV, br)) != null) {
-                    linhaValores = Arquivo.lerCampos(linha);
-                    atributoValorAnotacao = recuperarAtributoValorAnotacao(objetoClasse);
-                    atributoValor = recuperarAtributoValorObjeto(campos, atributoValorAnotacao, linhaValores);
-                    Object entidade = instanciarObjeto(objetoClasse, atributoValor);
-                    
-                    // DAO generico Object
-                    dao.salvar(entidade);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
     
@@ -254,7 +259,8 @@ public class ReadCSV {
         Map<String, String> atributoValorObjeto = new HashMap<String, String>();
         int i = 0;
         for (String campo : campos) {
-            atributoValorObjeto.put(atributoValorAnotacao.get(campo), linhaValores.get(i));
+            if (i < linhaValores.size())
+                atributoValorObjeto.put(atributoValorAnotacao.get(campo), linhaValores.get(i));
             i++;
         }
         return atributoValorObjeto;
