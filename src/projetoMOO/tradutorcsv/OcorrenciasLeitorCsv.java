@@ -127,4 +127,5 @@ public class OcorrenciasLeitorCsv {
         }
         return ocorrencias;
     }
+
 }
