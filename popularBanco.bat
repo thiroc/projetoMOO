@@ -1,0 +1,1 @@
+java  -Xmx512M -cp "./WebContent/WEB-INF/lib/*;./target/classes" projetoMOO.tradutorcsv.OcorrenciasLeitorCsv
