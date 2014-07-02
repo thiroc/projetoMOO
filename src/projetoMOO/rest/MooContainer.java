@@ -16,7 +16,7 @@ public class MooContainer extends ServletContainer {
         // popularBanco();
     }
     
-    private void popularBanco() {
+    public void popularBanco() {
         try {
             OcorrenciasLeitorCsv ocorrencias = new OcorrenciasLeitorCsv();
             
